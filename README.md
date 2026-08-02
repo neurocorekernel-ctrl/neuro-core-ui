@@ -169,3 +169,40 @@ flightSuite.onOverloadDetected((telemetry) => {
   // Highlight Emergency Checklist
   flightSuite.focusElement('EMERGENCY_LANDING_CHECKLIST');
 });
+---
+
+## 🏥 ICU Surgical Displays & Medical Interface Layer (Medical Edition)
+
+During complex, long-duration surgical procedures or critical ICU patient monitoring, visual information density can lead to clinician decision fatigue and delayed intervention. The **NEURO-CORE Medical Engine** analyzes surgeon gaze fixation, blink frequency, and micro-pupillometry to automatically prune tertiary physiological telemetry, highlighting only critical vital indicators and active emergency metrics.
+
+### Medical Cognitive Load Formula (Biometric Vital Telemetry)
+
+$$\text{CLI}_{\text{medical}} = \omega \cdot \text{BlinkLatency} + \psi \cdot \text{FixationDuration} + \delta \cdot \left( \frac{\text{Fluctuating Vitals}}{\text{Baseline Target}} \right)$$
+
+Where:
+* $\text{BlinkLatency}$: Micro-delay in blink cycles indicating acute cognitive visual fatigue.
+* $\text{FixationDuration}$: Prolonged visual lock on complex waveform anomalies.
+* $\text{Fluctuating Vitals}$: Mathematical variance in active patient vital streams (ECG, SpO2, MAP).
+
+### Medical SDK Integration Sample
+
+```javascript
+// NEURO-CORE Medical ICU Telemetry Bridge
+import { NeuroMedical } from '@neuro-core/medical';
+
+const icuMonitor = new NeuroMedical({
+  environment: 'OPERATING_ROOM_DISPLAY',
+  fatigueThreshold: 0.88
+});
+
+icuMonitor.onSurgeonFatigueDetected((telemetry) => {
+  // Collapse non-essential telemetry (e.g., historical trend graphs, secondary gas levels)
+  icuMonitor.pruneTertiaryVitals([
+    'HISTORICAL_TREND_LOGS',
+    'NON_CRITICAL_GAS_PARTIALS',
+    'AMBIENT_OR_METRICS'
+  ]);
+  
+  // Amplify Primary Lifesaving Waveforms (ECG & MAP)
+  icuMonitor.maximizeVitalStream(['ECG_LEAD_II', 'MEAN_ARTERIAL_PRESSURE']);
+});
