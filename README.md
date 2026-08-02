@@ -72,3 +72,26 @@ function evaluateVisualFatigue(gazeData) {
     NeuroCoreEngine.triggerCognitivePruning();
   }
 }
+---
+
+## 💼 Enterprise Integration SDK & E-Commerce Module (Shopify / Headless UI)
+
+NEURO-CORE is architected for seamless drop-in deployment across enterprise e-commerce platforms.
+
+### 🛍️ Business Impact & ROI Metrics
+* **Abandonment Reduction:** Lowers checkout drop-off rates by mitigating decision fatigue.
+* **Conversion Rate Optimization (CRO):** Dynamically stabilizes user focus during high-friction payment steps.
+* **Frictionless Integration:** Requires zero backend refactoring.
+
+### 🔌 Drop-in SDK Implementation Example
+
+E-commerce merchants can integrate NEURO-CORE telemetry via a single client-side script tag:
+
+```html
+<!-- NEURO-CORE Enterprise SDK -->
+<script 
+  src="[https://cdn.neurocore.io/v2/neuro-core.min.js](https://cdn.neurocore.io/v2/neuro-core.min.js)" 
+  data-api-key="NC_LIVE_ENTERPRISE_KEY"
+  data-auto-prune="true"
+  defer>
+</script>
