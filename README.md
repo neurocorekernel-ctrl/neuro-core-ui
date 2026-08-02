@@ -99,3 +99,12 @@ E-commerce merchants can integrate NEURO-CORE telemetry via a single client-side
 window.addEventListener('neuroCore:pruneTriggered', (event) => {
   console.log('Cognitive Load Exceeded. Secondary UI elements collapsed:', event.detail);
 });
+---
+
+## 🎮 Interactive Simulation & Stress-Test Panel (Demo Mode)
+
+The live prototype includes an interactive telemetry simulator to test real-time Cognitive Pruning without external hardware.
+
+### Simulation Triggers:
+* **Stress Test Mode (`Ctrl + Shift + S`):** Simulates high visual arousal, forcing `CognitiveLoadIndex` above $0.85$.
+* **Instant Pruning Visualizer:** Toggles between *Unoptimized High-Friction UI* and *NEURO-CORE Prune UI*.
