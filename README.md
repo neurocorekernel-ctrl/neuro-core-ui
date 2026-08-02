@@ -206,3 +206,31 @@ icuMonitor.onSurgeonFatigueDetected((telemetry) => {
   // Amplify Primary Lifesaving Waveforms (ECG & MAP)
   icuMonitor.maximizeVitalStream(['ECG_LEAD_II', 'MEAN_ARTERIAL_PRESSURE']);
 });
+---
+
+## 🎛️ NEURO-CORE Enterprise SaaS Dashboard & Merchant Control Center
+
+The central management console allows enterprise clients (E-Commerce, Aviation, Healthcare) to deploy, monitor, and configure real-time Cognitive Load thresholds across their application ecosystem.
+
+### Key SaaS Dashboard Features:
+1. **API Key Lifecycle Management:** Issue and revoke encrypted edge keys for high-volume telemetry ingestion.
+2. **Real-Time CLI Telemetry Stream:** Live WebSocket charts tracking average user cognitive friction and pruning trigger events.
+3. **Sector Configuration Matrix:** Toggle between *E-Commerce Checkout*, *Cockpit Avionics*, and *ICU Surgical* dynamic modes.
+
+### Telemetry Subscription Integration (SaaS Config)
+
+```javascript
+// Enterprise Client Initialization
+import { NeuroCoreSaaS } from '@neuro-core/dashboard';
+
+const merchantDashboard = new NeuroCoreSaaS({
+  apiKey: process.env.NEUROCORE_API_KEY,
+  environment: 'PRODUCTION',
+  activeSectorMode: 'E_COMMERCE_CHECKOUT', // Options: E_COMMERCE_CHECKOUT | COCKPIT_AVIONICS | ICU_SURGICAL
+  autoPruneThreshold: 0.85
+});
+
+// Stream telemetry data to SaaS analytics
+merchantDashboard.connectTelemetryStream((metrics) => {
+  console.log(`Active CLI Index: ${metrics.currentCLI} | Total Pruning Events: ${metrics.pruneCount}`);
+});
