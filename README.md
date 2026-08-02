@@ -49,3 +49,26 @@ Designed and developed as an exploratory prototype at the intersection of **Neur
 
 * **Architect:** Bilgay Bayraktar
 * **Repository:** `neuro-core-ui`
+---
+
+## 👁️ Advanced Module: Biometric Eye-Tracking Telemetry (WebGazer Integration)
+
+NEURO-CORE v2.0 introduces real-time visual attention mapping via browser-based computer vision.
+
+### Technical Specification:
+* **Gaze Tracking Engine:** WebGazer.js / Canvas Telemetry
+* **Cognitive Metrics Tracked:**
+  * **Saccadic Fixation Duration:** Time spent staring at complex UI elements (indicates confusion).
+  * **Blink Rate & Pupil Dilation Simulation:** Estimates visual fatigue index.
+  * **Fixation Heatmap Trigger:** Dynamically invokes `Cognitive Pruning` if saccadic latency exceeds threshold.
+
+```javascript
+// Biometric Load Evaluator Concept
+function evaluateVisualFatigue(gazeData) {
+  const { saccadeFrequency, fixationDuration } = gazeData;
+  const cognitiveLoadIndex = (fixationDuration * 0.6) + (saccadeFrequency * 0.4);
+  
+  if (cognitiveLoadIndex > THRESHOLD_OVERLOAD) {
+    NeuroCoreEngine.triggerCognitivePruning();
+  }
+}
