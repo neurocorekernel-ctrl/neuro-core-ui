@@ -108,3 +108,27 @@ The live prototype includes an interactive telemetry simulator to test real-time
 ### Simulation Triggers:
 * **Stress Test Mode (`Ctrl + Shift + S`):** Simulates high visual arousal, forcing `CognitiveLoadIndex` above $0.85$.
 * **Instant Pruning Visualizer:** Toggles between *Unoptimized High-Friction UI* and *NEURO-CORE Prune UI*.
+---
+
+## 👁️ Biometric Vision Engine Integration (WebGazer.js Layer)
+
+To activate direct webcam gaze-tracking telemetry, import the browser vision layer into your primary checkout component:
+
+```javascript
+// Initialize WebGazer Telemetry Engine
+import webgazer from 'webgazer';
+
+export function initBiometricTracker() {
+  webgazer.setGazeListener((data, elapsedTime) => {
+    if (data == null) return;
+    
+    const x = data.x; // Eye gaze X coordinate
+    const y = data.y; // Eye gaze Y coordinate
+    
+    // Evaluate fixation fatigue in real-time
+    evaluateFixationFatigue(x, y, elapsedTime);
+  }).begin();
+
+  // Hide gaze point overlay for seamless UX
+  webgazer.showPredictionPoints(false);
+}
