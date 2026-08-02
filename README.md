@@ -95,3 +95,7 @@ E-commerce merchants can integrate NEURO-CORE telemetry via a single client-side
   data-auto-prune="true"
   defer>
 </script>
+// Listen to Cognitive Pruning Events in Shopify Checkout
+window.addEventListener('neuroCore:pruneTriggered', (event) => {
+  console.log('Cognitive Load Exceeded. Secondary UI elements collapsed:', event.detail);
+});
