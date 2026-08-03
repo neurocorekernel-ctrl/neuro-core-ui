@@ -240,3 +240,16 @@ merchantDashboard.connectTelemetryStream((metrics) => {
 * **SaaS Dashboard Component:** `SaaSControlCenter.jsx` (Active)
 * **API Key & Verification Engine:** `apiEngine.js` (Active)
 * **Live Deployment:** [neuro-core-gamma.vercel.app](https://neuro-core-gamma.vercel.app)
+# 🧠 NEURO-CORE: Enterprise Neuro-Adaptive UI Engine
+
+> **Next-Generation Cognitive Load Optimization for Aviation, ICU Surgical Displays, and Enterprise E-Commerce.**
+
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://gnu.org/licenses/gpl-3.0)
+[![Deployment Status](https://img.shields.io/badge/Deployment-Live-brightgreen)](https://neuro-core-gamma.vercel.app)
+[![Sector Support](https://img.shields.io/badge/Sectors-Aviation%20%7C%20Medical%20%7C%20E--Commerce-orange)](#)
+
+---
+
+### 🌐 Live Production Platform
+Explore the active multi-sector SaaS control center and real-time cognitive load telemetry:
+**🔗 [https://neuro-core-gamma.vercel.app](https://neuro-core-gamma.vercel.app)**
