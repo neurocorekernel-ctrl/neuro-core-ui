@@ -6,18 +6,18 @@
     <title>NEURO-CORE | Enterprise Neuro-Adaptive UI Engine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #030712;
-            --glass-bg: rgba(17, 24, 39, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-cyan: #38bdf8;
-            --accent-emerald: #10b981;
-            --accent-rose: #f43f5e;
-            --accent-amber: #f59e0b;
+            --bg-dark: #030712;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --cyan-glow: #38bdf8;
+            --emerald-glow: #10b981;
+            --rose-glow: #f43f5e;
+            --amber-glow: #f59e0b;
             --text-main: #f9fafb;
-            --text-muted: #9ca3af;
+            --text-sub: #9ca3af;
         }
 
         * {
@@ -29,520 +29,546 @@
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-dark);
             color: var(--text-main);
-            min-height: 100vh;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+            line-height: 1.6;
         }
 
-        /* Apple-style Top Nav */
+        /* Ambient Glow Backgrounds */
+        .glow-bg {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 60%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+        }
+
+        /* Top Navigation */
         nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 3rem;
-            background: rgba(3, 7, 18, 0.8);
+            padding: 1.25rem 4rem;
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
         }
 
-        .logo-container {
+        .logo {
             display: flex;
             align-items: center;
             gap: 12px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
         }
 
         .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-            font-weight: bold;
-            font-size: 18px;
         }
 
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
         }
 
-        .nav-badge {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: var(--accent-cyan);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn-cta {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.875rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* Hero Header */
-        .hero {
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            z-index: 1;
+            padding: 10rem 2rem 5rem 2rem;
             text-align: center;
-            padding: 4rem 1.5rem 2rem 1.5rem;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .hero-tag {
-            color: var(--accent-cyan);
-            font-size: 0.875rem;
-            font-weight: 600;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--cyan-glow);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .hero h1 {
-            font-size: 3.25rem;
-            font-weight: 800;
-            letter-spacing: -1.5px;
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
             line-height: 1.1;
-            margin-bottom: 1.25rem;
-            background: linear-gradient(to bottom, #ffffff 0%, #94a3b8 100%);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #FFFFFF 0%, #94A3B8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            max-width: 750px;
+            margin: 0 auto 3rem auto;
+            font-weight: 400;
         }
 
-        /* Sector Tabs */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto 6rem auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cyan-glow);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        /* Value Proposition Grid */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 8rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        /* LIVE INTERACTIVE DEMO SECTION */
+        .demo-wrapper {
+            max-width: 1300px;
+            margin: 0 auto 8rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+
         .sector-tabs {
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .tab-btn {
             background: rgba(31, 41, 55, 0.5);
-            border: 1px solid var(--glass-border);
-            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
             padding: 12px 24px;
             border-radius: 12px;
-            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .tab-btn:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            color: #fff;
+            transition: all 0.3s;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
-            border-color: var(--accent-cyan);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2));
+            border-color: var(--cyan-glow);
             color: #fff;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
         }
 
-        /* Main Workspace App Grid */
-        .app-container {
-            max-width: 1300px;
-            margin: 0 auto 5rem auto;
-            padding: 0 1.5rem;
+        .app-layout {
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 2rem;
         }
 
-        /* Control Panel Sidebar */
-        .control-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 2rem;
+        .sidebar {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            gap: 1.5rem;
         }
 
-        .panel-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #fff;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 1rem;
-        }
-
-        .slider-group {
+        .slider-box {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .slider-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .cli-score-badge {
+        .cli-badge {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             padding: 4px 12px;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            text-align: center;
+            transition: all 0.3s;
         }
 
-        .cli-score-badge.normal {
-            color: var(--accent-emerald);
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
+        .cli-badge.normal { color: var(--emerald-glow); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .cli-badge.warning { color: var(--amber-glow); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .cli-badge.critical { color: var(--rose-glow); background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); animation: pulse 1.5s infinite; }
 
-        .cli-score-badge.warning {
-            color: var(--accent-amber);
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .cli-score-badge.critical {
-            color: var(--accent-rose);
-            background: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            animation: pulse-rose 1.5s infinite;
-        }
-
-        @keyframes pulse-rose {
+        @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+            70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
             100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
         }
 
         input[type=range] {
-            -webkit-appearance: none;
             width: 100%;
             background: #1f2937;
-            height: 8px;
-            border-radius: 4px;
+            height: 6px;
+            border-radius: 3px;
             outline: none;
+            -webkit-appearance: none;
         }
 
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: var(--accent-cyan);
+            background: var(--cyan-glow);
             cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-cyan);
-            transition: transform 0.1s;
+            box-shadow: 0 0 10px var(--cyan-glow);
         }
 
-        input[type=range]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        .telemetry-metrics {
+        .canvas {
+            background: rgba(3, 7, 18, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            min-height: 480px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 1rem;
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-        }
-
-        .metric-item span:first-child { color: var(--text-muted); }
-        .metric-item span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #fff; }
-
-        /* Simulated Interface Canvas */
-        .canvas-wrapper {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 2rem;
             position: relative;
-            min-height: 580px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
         }
 
-        .canvas-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .status-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--accent-emerald);
-            box-shadow: 0 0 10px var(--accent-emerald);
-        }
-
-        /* Dynamic Pruning Elements */
-        .interface-grid {
+        .grid-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             flex-grow: 1;
+            margin-top: 1rem;
         }
 
         .card {
             background: rgba(30, 41, 59, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 1.25rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.4s ease;
         }
 
         .card.critical-focus {
-            border-color: var(--accent-cyan);
+            border-color: var(--cyan-glow);
             background: rgba(14, 165, 233, 0.12);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
             grid-column: span 2;
             grid-row: span 2;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
         }
 
         .card.pruned {
             opacity: 0.1;
             filter: blur(4px);
-            transform: scale(0.95);
+            transform: scale(0.96);
             pointer-events: none;
         }
 
-        .card-tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-cyan);
-            margin-bottom: 8px;
-        }
+        .card-tag { font-size: 0.65rem; font-weight: 700; color: var(--cyan-glow); margin-bottom: 4px; letter-spacing: 1px; }
+        .card-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: #fff; }
+        .card-desc { font-size: 0.8rem; color: var(--text-sub); }
 
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        .card-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* Banner Notification when Pruning triggers */
-        .prune-alert-banner {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.9), rgba(225, 29, 72, 0.9));
-            color: #fff;
-            padding: 12px 28px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(244, 63, 94, 0.4);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .prune-alert-banner.active {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
+        /* Footer */
         footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
             text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
+
+        footer a { color: var(--cyan-glow); text-decoration: none; }
     </style>
 </head>
 <body>
 
+    <div class="glow-bg"></div>
+
     <nav>
-        <div class="logo-container">
+        <div class="logo">
             <div class="logo-icon">🧠</div>
-            <div class="logo-text">NEURO-CORE</div>
+            <span>NEURO-CORE</span>
         </div>
-        <div class="nav-badge">GPL-3.0 PATENTED ARCHITECTURE</div>
+        <ul class="nav-links">
+            <li><a href="#vision">Vizyon</a></li>
+            <li><a href="#features">Çözümler</a></li>
+            <li><a href="#simulator">Canlı Simülatör</a></li>
+            <li><a href="#patents">Patent & Lisans</a></li>
+        </ul>
+        <a href="#contact" class="btn-cta">İletişime Geçin</a>
     </nav>
 
-    <section class="hero">
-        <div class="hero-tag">The First Neuro-Adaptive Interface Platform</div>
-        <h1>Cognitive Friction Elimination.<br>Automated in Real-Time.</h1>
-        <p>Experience how NEURO-CORE dynamically measures Cognitive Load Index (CLI) and prunes complex UI clutter in high-stakes avionics, medical, and high-volume e-commerce environments.</p>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="vision">
+        <div class="badge">🚀 GPL-3.0 PATENTED NEURO-INTERFACE</div>
+        <h1 class="hero-title">Bilişsel Aşırı Yükü Ortadan Kaldıran Geleceğin Arayüz Motoru.</h1>
+        <p class="hero-desc">NEURO-CORE, kokpitlerden tıbbi operasyonlara ve yüksek hacimli e-ticarete kadar insan odaklı kritik sistemlerde bilişsel stresi (CLI) anlık olarak ölçer ve arayüz karmaşasını otomatik olarak budar.</p>
 
-        <div class="sector-tabs">
-            <button class="tab-btn active" onclick="switchSector('AVIATION')">✈️ Aviation Cockpit (THY)</button>
-            <button class="tab-btn" onclick="switchSector('ECOMMERCE')">🛒 Enterprise Checkout</button>
-            <button class="tab-btn" onclick="switchSector('SURGICAL')">🩺 ICU Surgical Display</button>
+        <div class="hero-stats">
+            <div>
+                <div class="stat-number">%80</div>
+                <div class="stat-label">Daha Az Bilişsel Karmaşa</div>
+            </div>
+            <div>
+                <div class="stat-number">&lt;0.14ms</div>
+                <div class="stat-label">Görsel Budama Gecikmesi</div>
+            </div>
+            <div>
+                <div class="stat-number">3 Sektör</div>
+                <div class="stat-label">Aviation, Medical, E-Com</div>
+            </div>
         </div>
     </section>
 
-    <div class="app-container">
-        <!-- Control Panel Sidebar -->
-        <div class="control-panel">
-            <div class="panel-title">
-                ⚙️ Live Telemetry & Biometrics
+    <!-- FEATURES SECTION -->
+    <section id="features">
+        <h2 class="section-title">Hayati Sektörlerde Sıfır Hata Gücü</h2>
+        <p class="section-subtitle">Kritik anlarda insan beyninin odak noktasını korumak için tasarlanmış adaptive mimari.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✈️</div>
+                <h3>Sivil Havacılık & Kokpit (THY)</h3>
+                <p>Acil durumlarda pilotun bilişsel yükü yükseldiğinde ikincil klima ve yolcu verilerini flulaştırır, sadece uçuş vektörü ve acil durum adımlarını öne çıkarır.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛒</div>
+                <h3>E-Ticaret Sepet Kurtarma</h3>
+                <p>Müşteri ödeme adımlarındaki stresi tespit eder, gereksiz öneri ve banner'ları silerek doğrudan 1-Tıkla Satın Alma odağını sağlar.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🩺</div>
+                <h3>Yoğun Bakım & Ameliyathane</h3>
+                <p>Cerrahın göz takip ivmesi arttığında ikincil laboratuvar kayıtlarını budar, sadece hayati ECG ve oksijen dalga boylarını ekranda tutar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE SIMULATOR SECTION -->
+    <section class="demo-wrapper" id="simulator">
+        <h2 class="section-title">Canlı Algoritma Simülatörü</h2>
+        <p class="section-subtitle">Aşağıdaki kaydırıcıyı sağa çekerek bilişsel stresi artırın ve NEURO-CORE'un arayüzü nasıl anlık olarak budadığını (pruning) gözlerinizle görün.</p>
+
+        <div class="demo-container">
+            <div class="sector-tabs">
+                <button class="tab-btn active" onclick="switchSector('AVIATION')">✈️ Havacılık Kokpit Mode</button>
+                <button class="tab-btn" onclick="switchSector('ECOMMERCE')">🛒 E-Ticaret Sepet Mode</button>
+                <button class="tab-btn" onclick="switchSector('SURGICAL')">🩺 Ameliyathane ICU Mode</button>
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <span class="slider-label">Cognitive Stress Simulator</span>
-                    <div id="cliBadge" class="cli-score-badge normal">0.32 CLI</div>
-                </div>
-                <input type="range" id="cliSlider" min="0.10" max="0.99" step="0.01" value="0.32" oninput="updateCLI(this.value)">
-                <span style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Slide right to trigger CLI overload (&gt;0.80)</span>
-            </div>
+            <div class="app-layout">
+                <!-- Sidebar Controls -->
+                <div class="sidebar">
+                    <div style="font-size:0.9rem; font-weight:700; color:#fff; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">
+                        ⚙️ Biyometrik Stres Simülatörü
+                    </div>
+                    
+                    <div class="slider-box">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:0.8rem; color:var(--text-sub);">Bilişsel Stres (CLI)</span>
+                            <div id="cliBadge" class="cli-badge normal">0.32</div>
+                        </div>
+                        <input type="range" id="cliSlider" min="0.10" max="0.99" step="0.01" value="0.32" oninput="updateCLI(this.value)">
+                    </div>
 
-            <div class="telemetry-metrics">
-                <div class="metric-item">
-                    <span>Active Sector Mode</span>
-                    <span id="activeModeText">Aviation Cockpit</span>
+                    <div style="font-size:0.8rem; color:var(--text-sub); display:flex; flex-direction:column; gap:8px; background:rgba(3,7,18,0.4); padding:1rem; border-radius:12px;">
+                        <div style="display:flex; justify-content:space-between;"><span>Arayüz Durumu:</span> <b id="pruneStatusText" style="color:var(--emerald-glow);">FULL DISPLAY</b></div>
+                        <div style="display:flex; justify-content:space-between;"><span>Tepki Süresi:</span> <b style="color:#fff;">0.14 ms</b></div>
+                    </div>
                 </div>
-                <div class="metric-item">
-                    <span>Gaze Lock Velocity</span>
-                    <span id="gazeText">120 deg/s</span>
-                </div>
-                <div class="metric-item">
-                    <span>Interface State</span>
-                    <span id="pruneStatusText" style="color:var(--accent-emerald);">FULL DISPLAY</span>
-                </div>
-                <div class="metric-item">
-                    <span>Latency Delay</span>
-                    <span>0.14 ms</span>
+
+                <!-- Live Canvas -->
+                <div class="canvas">
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:1rem; border-bottom:1px solid var(--border-color);">
+                        <div>
+                            <h3 id="sectorTitle" style="font-size:1.1rem; font-weight:700; color:#fff;">Primary Flight Display - Boeing 787</h3>
+                            <p id="sectorSubtitle" style="font-size:0.8rem; color:var(--text-sub);">Canlı Kokpit Telemetri Akışı</p>
+                        </div>
+                        <span style="font-size:0.75rem; background:rgba(16,185,129,0.1); color:var(--emerald-glow); border:1px solid rgba(16,185,129,0.3); padding:4px 10px; border-radius:12px; font-weight:600;">ACTIVE ENGINE</span>
+                    </div>
+
+                    <div class="grid-cards" id="gridCards">
+                        <!-- JS with dynamic cards -->
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Simulated Interface Canvas -->
-        <div class="canvas-wrapper">
-            <div class="canvas-header">
-                <div>
-                    <h2 id="sectorTitle" style="color:#fff; font-size:1.3rem; font-weight:700;">Primary Flight Display (PFD) - Boeing 787 / A350</h2>
-                    <p id="sectorSubtitle" style="color:var(--text-muted); font-size:0.85rem;">Simulated Cockpit Avionics Telemetry Stream</p>
-                </div>
-                <div class="status-pill">
-                    <div class="status-dot"></div>
-                    <span style="color:var(--text-muted);">NEURO-ENGINE ACTIVE</span>
-                </div>
-            </div>
-
-            <!-- Grid Cards -->
-            <div class="interface-grid" id="gridCards">
-                <!-- Dynamically populated via JavaScript -->
-            </div>
-
-            <div class="prune-alert-banner" id="alertBanner">
-                ⚡ CRITICAL CLI OVERLOAD DETECTED! NON-ESSENTIAL UI AUTOMATICALLY PRUNED
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        NEURO-CORE Engine &copy; 2026 Bilgay Bayraktar | Created for High-Stakes Avionics & Enterprise UI Optimization
+    <!-- FOOTER -->
+    <footer id="contact">
+        <p><b>NEURO-CORE Ecosystem</b> &copy; 2026 Bilgay Bayraktar. Tüm Hakları Saklıdır.</p>
+        <p style="margin-top:8px; font-size:0.8rem;">Geliştiriciler & Yatırımcılar İçin İletişim: <a href="mailto:contact@neuro-core.io">contact@neuro-core.io</a></p>
     </footer>
 
     <script>
         const sectorData = {
             AVIATION: {
                 title: "Primary Flight Display (PFD) - Boeing 787 / A350",
-                subtitle: "Simulated Cockpit Avionics Telemetry Stream",
-                modeName: "Aviation Cockpit",
+                subtitle: "Canlı Kokpit Telemetri Akışı (THY Standartları)",
                 cards: [
-                    { id: 'c1', tag: 'PRIMARY ISOLATION', title: 'Attitude & Horizon Vector', desc: 'Critical pitch, roll, airspeed and altitude indicators. Kept permanently isolated.', critical: true },
-                    { id: 'c2', tag: 'AUXILIARY LOG', title: 'Cabin Temperature & AC', desc: 'Passenger zone temperature: 21.5°C. Fan speed auto.', pruneable: true },
-                    { id: 'c3', tag: 'COMMUNICATION', title: 'VHF2 Comms & Weather', desc: 'ATIS broadcast frequency 121.95. Secondary radar sweep.', pruneable: true },
-                    { id: 'c4', tag: 'PRIMARY ISOLATION', title: 'Emergency Checklist Engine', desc: 'Real-time procedure checklists and engine failure mitigation vector.', critical: true },
-                    { id: 'c5', tag: 'FUEL TELEMETRY', title: 'Secondary Tank Fuel Logs', desc: 'Center tank transfer rate 120 kg/min. Auxiliary valve closed.', pruneable: true },
-                    { id: 'c6', tag: 'CABIN LIGHTS', title: 'Ambient Lighting Array', desc: 'Seatbelt sign ON, dimming level 45%.', pruneable: true }
+                    { id: 'c1', tag: 'KRİTİK ODAK', title: 'Ufuk Vektörü & İrtifa', desc: 'Roll, pitch ve hız vektörleri. Kalıcı olarak izole edilmiştir.', critical: true },
+                    { id: 'c2', tag: 'TAVSİYE ODAK', title: 'Kabin İklimlendirme', desc: 'Yolcu bölgesi sıcaklığı: 21.5°C.', pruneable: true },
+                    { id: 'c3', tag: 'HABERLEŞME', title: 'VHF2 Telsiz Akışı', desc: 'ATIS frekansı 121.95 active.', pruneable: true },
+                    { id: 'c4', tag: 'KRİTİK ODAK', title: 'Acil Durum Motor Kontrolü', desc: 'Prosedür checklistleri ve arıza engelleme adımları.', critical: true },
+                    { id: 'c5', tag: 'YAKIT TELEMETRİ', title: 'İkincil Depo Akışı', desc: 'Merkez depo transfer hızı 120 kg/dk.', pruneable: true },
+                    { id: 'c6', tag: 'KABIN', title: 'Aydınlatma Parlaklığı', desc: 'Kemer ikaz lambaları AÇIK.', pruneable: true }
                 ]
             },
             ECOMMERCE: {
-                title: "Enterprise Checkout Engine (Trendyol / Shopify)",
-                subtitle: "High-Volume Cart Recovery & Friction Elimination",
-                modeName: "Enterprise Checkout",
+                title: "Enterprise Checkout Engine",
+                subtitle: "Yüksek Hacimli Sepet Kurtarma & Friction Azaltma",
                 cards: [
-                    { id: 'c1', tag: 'CORE CHECKOUT', title: 'Instant 1-Click Pay', desc: 'Saved credit card ending in *8821. Shipping address pre-filled.', critical: true },
-                    { id: 'c2', tag: 'PROMOTION', title: 'Flash Discount Banner', desc: 'Get 10% extra if you add $15 more items!', pruneable: true },
-                    { id: 'c3', tag: 'LIVE SUPPORT', title: 'Customer Chat Widget', desc: 'Agent Sarah is online. Need help?', pruneable: true },
-                    { id: 'c4', tag: 'CORE CHECKOUT', title: 'Order Total & Security Seal', desc: '$249.00 USD. SSL Encrypted 256-Bit Payment Gateway.', critical: true },
-                    { id: 'c5', tag: 'RECOMMENDATIONS', title: 'Frequently Bought Together', desc: 'Users who bought this also viewed wireless earbuds.', pruneable: true },
-                    { id: 'c6', tag: 'REVIEWS', title: 'Live Buyer Reviews', desc: '5 stars - "Super fast delivery!"', pruneable: true }
+                    { id: 'c1', tag: 'TEMEL ÖDEME', title: '1-Tıkla Hızlı Ödeme', desc: 'Kayıtlı kart *8821. Adres otomatik onaylı.', critical: true },
+                    { id: 'c2', tag: 'PROMOSYON', title: 'Fırsat İndirim Kuponu', desc: 'Sepete 500 TL daha ekleyin kargo bedava!', pruneable: true },
+                    { id: 'c3', tag: 'DESTEK', title: 'Canlı Müşteri Temsilcisi', desc: 'Müşteri hizmetleri çevrimiçi.', pruneable: true },
+                    { id: 'c4', tag: 'TEMEL ÖDEME', title: 'Sipariş Özeti & Güvenlik', desc: '256-Bit SSL Korumalı Güvenli Ödeme.', critical: true },
+                    { id: 'c5', tag: 'ÖNERİLER', title: 'Birlikte Alınan Ürünler', desc: 'Bu ürünü alanlar bunları da inceledi.', pruneable: true },
+                    { id: 'c6', tag: 'YORUMLAR', title: 'Canlı Müşteri Değerlendirmeleri', desc: '5 Yıldız - "Çok hızlı kargo!"', pruneable: true }
                 ]
             },
             SURGICAL: {
-                title: "ICU Surgical Vital Monitor (Operating Room)",
-                subtitle: "Surgeon Fatigue & Decision Friction Prevention Mode",
-                modeName: "ICU Surgical Display",
+                title: "ICU Tıbbi Vital Monitör",
+                subtitle: "Cerrah Bilişsel Yorgunluk Engelleme Modu",
                 cards: [
-                    { id: 'c1', tag: 'CRITICAL VITAL', title: 'ECG Lead II & Arterial Wave', desc: 'Heart Rate: 72 BPM. MAP: 85 mmHg. Core vital waveform stream.', critical: true },
-                    { id: 'c2', tag: 'HISTORICAL LOG', title: '24-Hour Urine Output Trend', desc: 'Hourly average 45ml/hr. Stable trend.', pruneable: true },
-                    { id: 'c3', tag: 'AMBIENT', title: 'OR Pressure & Humidity', desc: 'Laminar air flow active. Humidity 42%.', pruneable: true },
-                    { id: 'c4', tag: 'CRITICAL VITAL', title: 'Oxygen Saturation SpO2', desc: 'SpO2: 99% on FiO2 40%. Anesthetic depth index optimal.', critical: true },
-                    { id: 'c5', tag: 'LAB METRICS', title: 'Pre-op Blood Panel', desc: 'Hemoglobin 14.2 g/dL. Platelets 220,000.', pruneable: true },
-                    { id: 'c6', tag: 'COMMUNICATION', title: 'Nursing Intercom Stream', desc: 'Blood bank standby confirmed.', pruneable: true }
+                    { id: 'c1', tag: 'HAYATİ BULGU', title: 'ECG Nabız & Arteriyel Basınç', desc: 'Nabız: 72 BPM. Tansiyon: 120/80 mmHg.', critical: true },
+                    { id: 'c2', tag: 'GEÇMİŞ KAYIT', title: '24 Saatlik Sıvı Dengesi', desc: 'Saatlik ortalama 45ml/saat.', pruneable: true },
+                    { id: 'c3', tag: 'AMELİYATHANE', title: 'Oda Basınç & Nem', desc: 'Steril hava akışı aktif.', pruneable: true },
+                    { id: 'c4', tag: 'HAYATİ BULGU', title: 'Oksijen Satürasyonu (SpO2)', desc: '%99 SpO2. Anestezi derinliği optimal.', critical: true },
+                    { id: 'c5', tag: 'LABORATUVAR', title: 'Ameliyat Öncesi Kan Değerleri', desc: 'Hemoglobin 14.2 g/dL.', pruneable: true },
+                    { id: 'c6', tag: 'HABERLEŞME', title: 'Hemşire Çağrı Hattı', desc: 'Kan bankası hazırda bekletiliyor.', pruneable: true }
                 ]
             }
         };
@@ -568,7 +594,6 @@
 
             document.getElementById('sectorTitle').innerText = data.title;
             document.getElementById('sectorSubtitle').innerText = data.subtitle;
-            document.getElementById('activeModeText').innerText = data.modeName;
         }
 
         function switchSector(sector) {
@@ -583,44 +608,32 @@
             const cliNum = parseFloat(val);
             const badge = document.getElementById('cliBadge');
             const statusText = document.getElementById('pruneStatusText');
-            const alertBanner = document.getElementById('alertBanner');
-            const gazeText = document.getElementById('gazeText');
 
-            badge.innerText = `${cliNum.toFixed(2)} CLI`;
-
-            // Adjust Gaze velocity
-            gazeText.innerText = `${Math.round(100 + cliNum * 250)} deg/s`;
+            badge.innerText = cliNum.toFixed(2);
 
             if (cliNum >= 0.80) {
-                badge.className = 'cli-score-badge critical';
+                badge.className = 'cli-badge critical';
                 statusText.innerText = 'COGNITIVE PRUNING ACTIVE';
-                statusText.style.color = 'var(--accent-rose)';
-                alertBanner.classList.add('active');
+                statusText.style.color = 'var(--rose-glow)';
 
-                // Prune non-critical elements
                 document.querySelectorAll('.card').forEach(card => {
                     if (!card.classList.contains('critical-focus')) {
                         card.classList.add('pruned');
                     }
                 });
             } else if (cliNum >= 0.60) {
-                badge.className = 'cli-score-badge warning';
+                badge.className = 'cli-badge warning';
                 statusText.innerText = 'ELEVATED STRESS';
-                statusText.style.color = 'var(--accent-amber)';
-                alertBanner.classList.remove('active');
-
+                statusText.style.color = 'var(--amber-glow)';
                 document.querySelectorAll('.card').forEach(card => card.classList.remove('pruned'));
             } else {
-                badge.className = 'cli-score-badge normal';
+                badge.className = 'cli-badge normal';
                 statusText.innerText = 'FULL DISPLAY';
-                statusText.style.color = 'var(--accent-emerald)';
-                alertBanner.classList.remove('active');
-
+                statusText.style.color = 'var(--emerald-glow)';
                 document.querySelectorAll('.card').forEach(card => card.classList.remove('pruned'));
             }
         }
 
-        // Initialize on load
         renderGrid();
     </script>
 </body>
