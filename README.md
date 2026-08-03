@@ -234,3 +234,9 @@ const merchantDashboard = new NeuroCoreSaaS({
 merchantDashboard.connectTelemetryStream((metrics) => {
   console.log(`Active CLI Index: ${metrics.currentCLI} | Total Pruning Events: ${metrics.pruneCount}`);
 });
+---
+
+## ⚡ Live System & SaaS Control Integration
+* **SaaS Dashboard Component:** `SaaSControlCenter.jsx` (Active)
+* **API Key & Verification Engine:** `apiEngine.js` (Active)
+* **Live Deployment:** [neuro-core-gamma.vercel.app](https://neuro-core-gamma.vercel.app)
