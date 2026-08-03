@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURO-CORE | Enterprise Neuro-Adaptive UI Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #030712;
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-cyan: #38bdf8;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+        }
+
+        /* Apple-style Top Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 3rem;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-badge {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Header */
+        .hero {
+            text-align: center;
+            padding: 4rem 1.5rem 2rem 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            color: var(--accent-cyan);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(to bottom, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Sector Tabs */
+        .sector-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
+            border-color: var(--accent-cyan);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
+        }
+
+        /* Main Workspace App Grid */
+        .app-container {
+            max-width: 1300px;
+            margin: 0 auto 5rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2rem;
+        }
+
+        /* Control Panel Sidebar */
+        .control-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 1rem;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slider-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .cli-score-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .cli-score-badge.normal {
+            color: var(--accent-emerald);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .cli-score-badge.warning {
+            color: var(--accent-amber);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .cli-score-badge.critical {
+            color: var(--accent-rose);
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            animation: pulse-rose 1.5s infinite;
+        }
+
+        @keyframes pulse-rose {
+            0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: #1f2937;
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-cyan);
+            transition: transform 0.1s;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .telemetry-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .metric-item span:first-child { color: var(--text-muted); }
+        .metric-item span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #fff; }
+
+        /* Simulated Interface Canvas */
+        .canvas-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            min-height: 580px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-emerald);
+            box-shadow: 0 0 10px var(--accent-emerald);
+        }
+
+        /* Dynamic Pruning Elements */
+        .interface-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.25rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.critical-focus {
+            border-color: var(--accent-cyan);
+            background: rgba(14, 165, 233, 0.12);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .card.pruned {
+            opacity: 0.1;
+            filter: blur(4px);
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .card-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Banner Notification when Pruning triggers */
+        .prune-alert-banner {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.9), rgba(225, 29, 72, 0.9));
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(244, 63, 94, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .prune-alert-banner.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">NEURO-CORE</div>
+        </div>
+        <div class="nav-badge">GPL-3.0 PATENTED ARCHITECTURE</div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-tag">The First Neuro-Adaptive Interface Platform</div>
+        <h1>Cognitive Friction Elimination.<br>Automated in Real-Time.</h1>
+        <p>Experience how NEURO-CORE dynamically measures Cognitive Load Index (CLI) and prunes complex UI clutter in high-stakes avionics, medical, and high-volume e-commerce environments.</p>
+
+        <div class="sector-tabs">
+            <button class="tab-btn active" onclick="switchSector('AVIATION')">✈️ Aviation Cockpit (THY)</button>
+            <button class="tab-btn" onclick="switchSector('ECOMMERCE')">🛒 Enterprise Checkout</button>
+            <button class="tab-btn" onclick="switchSector('SURGICAL')">🩺 ICU Surgical Display</button>
+        </div>
+    </section>
+
+    <div class="app-container">
+        <!-- Control Panel Sidebar -->
+        <div class="control-panel">
+            <div class="panel-title">
+                ⚙️ Live Telemetry & Biometrics
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span class="slider-label">Cognitive Stress Simulator</span>
+                    <div id="cliBadge" class="cli-score-badge normal">0.32 CLI</div>
+                </div>
+                <input type="range" id="cliSlider" min="0.10" max="0.99" step="0.01" value="0.32" oninput="updateCLI(this.value)">
+                <span style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Slide right to trigger CLI overload (&gt;0.80)</span>
+            </div>
+
+            <div class="telemetry-metrics">
+                <div class="metric-item">
+                    <span>Active Sector Mode</span>
+                    <span id="activeModeText">Aviation Cockpit</span>
+                </div>
+                <div class="metric-item">
+                    <span>Gaze Lock Velocity</span>
+                    <span id="gazeText">120 deg/s</span>
+                </div>
+                <div class="metric-item">
+                    <span>Interface State</span>
+                    <span id="pruneStatusText" style="color:var(--accent-emerald);">FULL DISPLAY</span>
+                </div>
+                <div class="metric-item">
+                    <span>Latency Delay</span>
+                    <span>0.14 ms</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulated Interface Canvas -->
+        <div class="canvas-wrapper">
+            <div class="canvas-header">
+                <div>
+                    <h2 id="sectorTitle" style="color:#fff; font-size:1.3rem; font-weight:700;">Primary Flight Display (PFD) - Boeing 787 / A350</h2>
+                    <p id="sectorSubtitle" style="color:var(--text-muted); font-size:0.85rem;">Simulated Cockpit Avionics Telemetry Stream</p>
+                </div>
+                <div class="status-pill">
+                    <div class="status-dot"></div>
+                    <span style="color:var(--text-muted);">NEURO-ENGINE ACTIVE</span>
+                </div>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="interface-grid" id="gridCards">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+
+            <div class="prune-alert-banner" id="alertBanner">
+                ⚡ CRITICAL CLI OVERLOAD DETECTED! NON-ESSENTIAL UI AUTOMATICALLY PRUNED
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        NEURO-CORE Engine &copy; 2026 Bilgay Bayraktar | Created for High-Stakes Avionics & Enterprise UI Optimization
+    </footer>
+
+    <script>
+        const sectorData = {
+            AVIATION: {
+                title: "Primary Flight Display (PFD) - Boeing 787 / A350",
+                subtitle: "Simulated Cockpit Avionics Telemetry Stream",
+                modeName: "Aviation Cockpit",
+                cards: [
+                    { id: 'c1', tag: 'PRIMARY ISOLATION', title: 'Attitude & Horizon Vector', desc: 'Critical pitch, roll, airspeed and altitude indicators. Kept permanently isolated.', critical: true },
+                    { id: 'c2', tag: 'AUXILIARY LOG', title: 'Cabin Temperature & AC', desc: 'Passenger zone temperature: 21.5°C. Fan speed auto.', pruneable: true },
+                    { id: 'c3', tag: 'COMMUNICATION', title: 'VHF2 Comms & Weather', desc: 'ATIS broadcast frequency 121.95. Secondary radar sweep.', pruneable: true },
+                    { id: 'c4', tag: 'PRIMARY ISOLATION', title: 'Emergency Checklist Engine', desc: 'Real-time procedure checklists and engine failure mitigation vector.', critical: true },
+                    { id: 'c5', tag: 'FUEL TELEMETRY', title: 'Secondary Tank Fuel Logs', desc: 'Center tank transfer rate 120 kg/min. Auxiliary valve closed.', pruneable: true },
+                    { id: 'c6', tag: 'CABIN LIGHTS', title: 'Ambient Lighting Array', desc: 'Seatbelt sign ON, dimming level 45%.', pruneable: true }
+                ]
+            },
+            ECOMMERCE: {
+                title: "Enterprise Checkout Engine (Trendyol / Shopify)",
+                subtitle: "High-Volume Cart Recovery & Friction Elimination",
+                modeName: "Enterprise Checkout",
+                cards: [
+                    { id: 'c1', tag: 'CORE CHECKOUT', title: 'Instant 1-Click Pay', desc: 'Saved credit card ending in *8821. Shipping address pre-filled.', critical: true },
+                    { id: 'c2', tag: 'PROMOTION', title: 'Flash Discount Banner', desc: 'Get 10% extra if you add $15 more items!', pruneable: true },
+                    { id: 'c3', tag: 'LIVE SUPPORT', title: 'Customer Chat Widget', desc: 'Agent Sarah is online. Need help?', pruneable: true },
+                    { id: 'c4', tag: 'CORE CHECKOUT', title: 'Order Total & Security Seal', desc: '$249.00 USD. SSL Encrypted 256-Bit Payment Gateway.', critical: true },
+                    { id: 'c5', tag: 'RECOMMENDATIONS', title: 'Frequently Bought Together', desc: 'Users who bought this also viewed wireless earbuds.', pruneable: true },
+                    { id: 'c6', tag: 'REVIEWS', title: 'Live Buyer Reviews', desc: '5 stars - "Super fast delivery!"', pruneable: true }
+                ]
+            },
+            SURGICAL: {
+                title: "ICU Surgical Vital Monitor (Operating Room)",
+                subtitle: "Surgeon Fatigue & Decision Friction Prevention Mode",
+                modeName: "ICU Surgical Display",
+                cards: [
+                    { id: 'c1', tag: 'CRITICAL VITAL', title: 'ECG Lead II & Arterial Wave', desc: 'Heart Rate: 72 BPM. MAP: 85 mmHg. Core vital waveform stream.', critical: true },
+                    { id: 'c2', tag: 'HISTORICAL LOG', title: '24-Hour Urine Output Trend', desc: 'Hourly average 45ml/hr. Stable trend.', pruneable: true },
+                    { id: 'c3', tag: 'AMBIENT', title: 'OR Pressure & Humidity', desc: 'Laminar air flow active. Humidity 42%.', pruneable: true },
+                    { id: 'c4', tag: 'CRITICAL VITAL', title: 'Oxygen Saturation SpO2', desc: 'SpO2: 99% on FiO2 40%. Anesthetic depth index optimal.', critical: true },
+                    { id: 'c5', tag: 'LAB METRICS', title: 'Pre-op Blood Panel', desc: 'Hemoglobin 14.2 g/dL. Platelets 220,000.', pruneable: true },
+                    { id: 'c6', tag: 'COMMUNICATION', title: 'Nursing Intercom Stream', desc: 'Blood bank standby confirmed.', pruneable: true }
+                ]
+            }
+        };
+
+        let currentSector = 'AVIATION';
+
+        function renderGrid() {
+            const data = sectorData[currentSector];
+            const grid = document.getElementById('gridCards');
+            grid.innerHTML = '';
+
+            data.cards.forEach(card => {
+                const cardEl = document.createElement('div');
+                cardEl.className = `card ${card.critical ? 'critical-focus' : ''}`;
+                cardEl.id = card.id;
+                cardEl.innerHTML = `
+                    <div class="card-tag">${card.tag}</div>
+                    <div class="card-title">${card.title}</div>
+                    <div class="card-desc">${card.desc}</div>
+                `;
+                grid.appendChild(cardEl);
+            });
+
+            document.getElementById('sectorTitle').innerText = data.title;
+            document.getElementById('sectorSubtitle').innerText = data.subtitle;
+            document.getElementById('activeModeText').innerText = data.modeName;
+        }
+
+        function switchSector(sector) {
+            currentSector = sector;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderGrid();
+            updateCLI(document.getElementById('cliSlider').value);
+        }
+
+        function updateCLI(val) {
+            const cliNum = parseFloat(val);
+            const badge = document.getElementById('cliBadge');
+            const statusText = document.getElementById('pruneStatusText');
+            const alertBanner = document.getElementById('alertBanner');
+            const gazeText = document.getElementById('gazeText');
+
+            badge.innerText = `${cliNum.toFixed(2)} CLI`;
+
+            // Adjust Gaze velocity
+            gazeText.innerText = `${Math.round(100 + cliNum * 250)} deg/s`;
+
+            if (cliNum >= 0.80) {
+                badge.className = 'cli-score-badge critical';
+                statusText.innerText = 'COGNITIVE PRUNING ACTIVE';
+                statusText.style.color = 'var(--accent-rose)';
+                alertBanner.classList.add('active');
+
+                // Prune non-critical elements
+                document.querySelectorAll('.card').forEach(card => {
+                    if (!card.classList.contains('critical-focus')) {
+                        card.classList.add('pruned');
+                    }
+                });
+            } else if (cliNum >= 0.60) {
+                badge.className = 'cli-score-badge warning';
+                statusText.innerText = 'ELEVATED STRESS';
+                statusText.style.color = 'var(--accent-amber)';
+                alertBanner.classList.remove('active');
+
+                document.querySelectorAll('.card').forEach(card => card.classList.remove('pruned'));
+            } else {
+                badge.className = 'cli-score-badge normal';
+                statusText.innerText = 'FULL DISPLAY';
+                statusText.style.color = 'var(--accent-emerald)';
+                alertBanner.classList.remove('active');
+
+                document.querySelectorAll('.card').forEach(card => card.classList.remove('pruned'));
+            }
+        }
+
+        // Initialize on load
+        renderGrid();
+    </script>
+</body>
+</html>
