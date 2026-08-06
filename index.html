@@ -635,53 +635,93 @@
         }
 
         renderGrid();
-    </script>
-</body>
-</html>
-// NeuroCoreTracker - Biometric Acceleration and Cognitive Load Engine
-class NeuroCoreTracker {
+        // NeuroCoreAdvancedTracker - Multi-Input Biometric Cognitive Load Engine (v2.0)
+class NeuroCoreAdvancedTracker {
   constructor(onCLIChange) {
-    this.mousePositions = [];
+    this.movementData = [];
+    this.touchData = [];
+    this.keyData = [];
     this.onCLIChange = onCLIChange;
     this.init();
   }
 
   init() {
-    window.addEventListener('mousemove', (e) => this.processMovement(e));
+    window.addEventListener('mousemove', (e) => this.trackMouse(e));
+    window.addEventListener('touchmove', (e) => this.trackTouch(e));
+    window.addEventListener('keydown', (e) => this.trackKeyboard(e));
   }
 
-  processMovement(event) {
+  trackMouse(event) {
     const now = Date.now();
-    this.mousePositions.push({ x: event.clientX, y: event.clientY, time: now });
+    this.movementData.push({ x: event.clientX, y: event.clientY, time: now });
+    this.cleanAndEvaluate();
+  }
 
-    // Retain movement data from the last 1000 milliseconds (1 second)
-    this.mousePositions = this.mousePositions.filter(p => now - p.time < 1000);
-
-    if (this.mousePositions.length > 5) {
-      const cliScore = this.calculateCLI();
-      this.onCLIChange(cliScore);
+  trackTouch(event) {
+    if (event.touches.length > 0) {
+      const now = Date.now();
+      const touch = event.touches[0];
+      this.touchData.push({ x: touch.clientX, y: touch.clientY, time: now });
+      this.cleanAndEvaluate();
     }
   }
 
-  calculateCLI() {
-    let totalDistance = 0;
-    for (let i = 1; i < this.mousePositions.length; i++) {
-      const p1 = this.mousePositions[i - 1];
-      const p2 = this.mousePositions[i];
-      const dx = p2.x - p1.x;
-      const dy = p2.y - p1.y;
-      totalDistance += Math.sqrt(dx * dx + dy * dy);
+  trackKeyboard(event) {
+    const now = Date.now();
+    this.keyData.push({ key: event.key, time: now });
+    this.cleanAndEvaluate();
+  }
+
+  cleanAndEvaluate() {
+    const now = Date.now();
+    this.movementData = this.movementData.filter(p => now - p.time < 1000);
+    this.touchData = this.touchData.filter(p => now - p.time < 1000);
+    this.keyData = this.keyData.filter(k => now - k.time < 2000);
+
+    const cliScore = this.calculateCompositeCLI();
+    this.onCLIChange(cliScore);
+  }
+
+  calculateCompositeCLI() {
+    let mouseScore = 0;
+    let touchScore = 0;
+    let keyScore = 0;
+
+    if (this.movementData.length > 5) {
+      let totalDistance = 0;
+      for (let i = 1; i < this.movementData.length; i++) {
+        const p1 = this.movementData[i - 1];
+        const p2 = this.movementData[i];
+        totalDistance += Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+      }
+      mouseScore = Math.min(Math.max((totalDistance / 2400), 0), 1);
     }
-    
-    // Normalized Cognitive Load Index (CLI) score between 0.00 and 1.00
-    let score = Math.min(Math.max((totalDistance / 2200), 0), 1);
-    return parseFloat(score.toFixed(2));
+
+    if (this.touchData.length > 3) {
+      let touchDistance = 0;
+      for (let i = 1; i < this.touchData.length; i++) {
+        const p1 = this.touchData[i - 1];
+        const p2 = this.touchData[i];
+        touchDistance += Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+      }
+      touchScore = Math.min(Math.max((touchDistance / 1800), 0), 1);
+    }
+
+    if (this.keyData.length > 4) {
+      const backspaces = this.keyData.filter(k => k.key === 'Backspace').length;
+      keyScore = Math.min(backspaces * 0.25, 1);
+    }
+
+    const compositeScore = Math.max(mouseScore, touchScore, keyScore);
+    return parseFloat(compositeScore.toFixed(2));
   }
 }
-// Initialize Biometric Tracker
-const tracker = new NeuroCoreTracker((score) => {
+
+// Initialize Advanced Multi-Input Biometric Tracker
+const tracker = new NeuroCoreAdvancedTracker((score) => {
   if (typeof updateCLI === 'function') {
     updateCLI(score);
   }
-});
-        
+});    </script>
+</body>
+</html>
