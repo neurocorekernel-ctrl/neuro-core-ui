@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuro-Core SDK | Developer Portal & Interactive Playground</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #090a0f;
+      --card-bg: rgba(18, 20, 29, 0.7);
+      --accent-cyan: #00f2fe;
+      --accent-magenta: #4facfe;
+      --text-main: #f0f4f8;
+      --text-muted: #8a99ad;
+      --border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    header { border-bottom: 1px solid var(--border-color); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(9, 10, 15, 0.8); backdrop-filter: blur(10px); }
+    .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 2px; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .logo i { color: var(--accent-cyan); }
+    .version-tag { font-size: 0.75rem; background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(0, 242, 254, 0.3); }
+
+    main { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; padding: 2rem; flex: 1; max-width: 1600px; margin: 0 auto; width: 100%; }
+
+    /* Control Panel */
+    .control-panel { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .panel-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem; }
+    .setting-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .setting-group label { font-size: 0.85rem; color: var(--text-main); display: flex; justify-content: space-between; }
+    .setting-group input[type="range"] { width: 100%; accent-color: var(--accent-cyan); }
+
+    /* Playground Area */
+    .playground { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; position: relative; overflow: hidden; }
+    .metrics-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); }
+    .cli-score-display { font-size: 1.8rem; font-weight: 800; font-mono: monospace; color: var(--accent-cyan); }
+
+    /* Code Output Box */
+    .code-box { background: #040507; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.85rem; color: #a6accd; overflow-x: auto; position: relative; }
+    .copy-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+    .copy-btn:hover { background: var(--accent-cyan); color: #000; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <i class="fa-solid fa-brain"></i> NEURO-CORE <span class="version-tag">SDK v2.0</span>
+    </div>
+    <div>
+      <a href="https://github.com/bilgay/neuro-core" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;"><i class="fa-brands fa-github"></i> GitHub Deposu</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sol Konfigürasyon Paneli -->
+    <aside class="control-panel">
+      <div class="panel-title">SDK Konfigürasyonu</div>
+      
+      <div class="setting-group">
+        <label>CLI Threshold (Budama Eşiği): <span id="threshold-val">0.70</span></label>
+        <input type="range" id="threshold-slider" min="0.30" max="0.95" step="0.05" value="0.70">
+      </div>
+
+      <div class="setting-group">
+        <label>Input Sensors (Girdi Kaynakları)</label>
+        <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+          <div><i class="fa-solid fa-check" style="color:var(--accent-cyan)"></i> Mouse Dynamics (Desktop)</div>
+          <div><i class="fa-solid fa-check" style="color:var(--accent-cyan)"></i> Touch & Gestures (iPad/EFB)</div>
+          <div><i class="fa-solid fa-check" style="color:var(--accent-cyan)"></i> Typing Hesitation (Keyboard)</div>
+        </div>
+      </div>
+
+      <div class="panel-title" style="margin-top: 1rem;">Hızlı Entegrasyon Kodu</div>
+      <div class="code-box">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('snippet').innerText)">Kopyala</button>
+        <pre id="snippet"><code>&lt;script src="https://neuro-core-gamma.vercel.app/neuro-core.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const neuro = new NeuroCore({
+    threshold: 0.70
+  });
+&lt;/script&gt;</code></pre>
+      </div>
+    </aside>
+
+    <!-- Sağ Canlı Test & Playground Alanı -->
+    <section class="playground">
+      <div class="metrics-bar">
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Canlı Bilişsel Yük Skoru (CLI)</div>
+          <div class="cli-score-display" id="live-score">0.00</div>
+        </div>
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; text-align: right;">Sistem Durumu</div>
+          <div id="prune-status" style="font-size: 0.9rem; font-weight: 600; color: #10b981;">NOMINAL (FULL DISPLAY)</div>
+        </div>
+      </div>
+
+      <div style="border: 1px dashed var(--border-color); padding: 2rem; border-radius: 8px; text-align: center; color: var(--text-muted);">
+        <i class="fa-solid fa-arrow-pointer" style="font-size: 2rem; margin-bottom: 1rem; color: var(--accent-cyan);"></i>
+        <p style="font-size: 0.95rem;">Fareyi ekranda hızlıca veya kararsızca sallayarak <strong>Canlı Biyometrik Stres Ölçümünü</strong> test edin.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="neuro-core.js"></script>
+  <script>
+    // Live Playground Interaction Script
+    const slider = document.getElementById('threshold-slider');
+    const thresholdVal = document.getElementById('threshold-val');
+    const liveScore = document.getElementById('live-score');
+    const pruneStatus = document.getElementById('prune-status');
+
+    slider.addEventListener('input', (e) => {
+      thresholdVal.innerText = parseFloat(e.target.value).toFixed(2);
+    });
+
+    // Initialize Engine Connection
+    if (typeof NeuroCore !== 'undefined') {
+      const engine = new NeuroCore({
+        threshold: 0.70
+      });
+    }
+  </script>
+</body>
+</html>
