@@ -638,3 +638,50 @@
     </script>
 </body>
 </html>
+// NeuroCoreTracker - Biometric Acceleration and Cognitive Load Engine
+class NeuroCoreTracker {
+  constructor(onCLIChange) {
+    this.mousePositions = [];
+    this.onCLIChange = onCLIChange;
+    this.init();
+  }
+
+  init() {
+    window.addEventListener('mousemove', (e) => this.processMovement(e));
+  }
+
+  processMovement(event) {
+    const now = Date.now();
+    this.mousePositions.push({ x: event.clientX, y: event.clientY, time: now });
+
+    // Retain movement data from the last 1000 milliseconds (1 second)
+    this.mousePositions = this.mousePositions.filter(p => now - p.time < 1000);
+
+    if (this.mousePositions.length > 5) {
+      const cliScore = this.calculateCLI();
+      this.onCLIChange(cliScore);
+    }
+  }
+
+  calculateCLI() {
+    let totalDistance = 0;
+    for (let i = 1; i < this.mousePositions.length; i++) {
+      const p1 = this.mousePositions[i - 1];
+      const p2 = this.mousePositions[i];
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      totalDistance += Math.sqrt(dx * dx + dy * dy);
+    }
+    
+    // Normalized Cognitive Load Index (CLI) score between 0.00 and 1.00
+    let score = Math.min(Math.max((totalDistance / 2200), 0), 1);
+    return parseFloat(score.toFixed(2));
+  }
+}
+// Initialize Biometric Tracker
+const tracker = new NeuroCoreTracker((score) => {
+  if (typeof updateCLI === 'function') {
+    updateCLI(score);
+  }
+});
+        
